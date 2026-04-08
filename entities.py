@@ -1,9 +1,23 @@
+from enum import StrEnum
+
+
+class StatType(StrEnum):
+    STRENGTH = "strength"
+    DEXTERITY = "dexterity"
+    VITALITY = "vitality"
+    ENERGY = "ENERGY"
+
+
 class Stats:
     def __init__(self, strength, dexterity, vitality, energy):
         self.strength = strength
         self.dexterity = dexterity
         self.vitality = vitality
         self.energy = energy
+
+    def increase_stat(self, stat, value):
+        current_value = getattr(self, stat)
+        setattr(self, stat, current_value + value)
 
 
 class Hero:
@@ -15,7 +29,7 @@ class Hero:
         self.stats = Stats(*self._BASE_STATS)
 
     def increase_stat(self, stat, value):
-        pass
+        self.stats.increase_stat(stat, value)
 
 
 class Barbarian(Hero):
