@@ -1,4 +1,5 @@
 from enum import StrEnum
+from random import random
 
 
 class StatType(StrEnum):
@@ -20,23 +21,45 @@ class Stats:
         setattr(self, stat, current_value + value)
 
 
-class Hero:
+class Entity:
     _BASE_STATS = (0, 0, 0, 0)
 
     def __init__(self, name, level):
         self.name = name
         self.level = level
         self.stats = Stats(*self._BASE_STATS)
+        self.current_life = self.max_life
 
     def increase_stat(self, stat, value):
         self.stats.increase_stat(stat, value)
 
+    @property
+    def max_life(self):
+        return self.stats.vitality * 5
 
-class Barbarian(Hero):
+    @property
+    def max_mana(self):
+        return self.stats.energy * 5
+
+    def attack(self, entity):
+        damage = self.stats.strength // 2
+        hit_chance = self.stats.dexterity / 50
+        if random() < hit_chance:
+            entity.take_damage(damage)
+
+    def take_damage(self, damage):
+        self.current_life -= damage
+
+
+class Enemy(Entity):
+    _BASE_STATS = (20, 20, 20, 20)
+
+
+class Barbarian(Entity):
     _BASE_STATS = (15, 10, 15, 5)
 
 
-class Sorceress(Hero):
+class Sorceress(Entity):
     _BASE_STATS = (5, 10, 10, 15)
 
 

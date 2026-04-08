@@ -4,15 +4,21 @@ from entities import *
 
 
 class TestHero(unittest.TestCase):
+    def setUp(self):
+        self.hero = Entity("Dummy", 1)
+
     def test_stat_increase(self):
-        hero = Hero("Dummy", 1)
-        hero.increase_stat(StatType.STRENGTH, 5)
-        self.assertEqual(hero.stats.strength, 5)
+        self.hero.increase_stat(StatType.STRENGTH, 5)
+        self.assertEqual(self.hero.stats.strength, 5)
 
     def test_stat_increase_error(self):
-        hero = Hero("Dummy", 1)
         with self.assertRaises(AttributeError):
-            hero.increase_stat("strongth", 5)
+            self.hero.increase_stat("strongth", 5)
+
+    def test_life(self):
+        self.assertEqual(self.hero.life, 0)
+        self.hero.increase_stat(StatType.VITALITY, 5)
+        self.assertEqual(self.hero.life, 25)
 
 
 if __name__ == "__main__":
