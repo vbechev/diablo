@@ -1,0 +1,1 @@
+An OOP workshop for Python @ FMI 2026.
